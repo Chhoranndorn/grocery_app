@@ -28,7 +28,7 @@ class _SplashPageState extends State<SplashPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(Images.logo, width: 60, height: 60),
+              Image.asset(Images.logo, width: 60,),
               SizedBox(width: 10,),
               Column(
                 mainAxisSize: MainAxisSize.min,
