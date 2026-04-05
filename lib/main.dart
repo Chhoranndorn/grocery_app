@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app/modules/splash/splash_page.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:grocery_app/controller/auth_controller.dart';
+import 'package:grocery_app/data/repository/auth_repo.dart';
+import 'package:grocery_app/modules/Select_Location/select_location%20.dart';
+import 'package:grocery_app/modules/sign_in/sign_in_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initDependencies(); // Initialize dependencies before running the app
   runApp(const MyApp());
+}
+
+Future<void> initDependencies() async {
+  final sharedPreferences = await SharedPreferences.getInstance();
+  Get.lazyPut(() => sharedPreferences);
+  Get.lazyPut(() => MockAuthRepo());
+  Get.lazyPut(() => AuthController(authRepo: Get.find()));
 }
 
 class MyApp extends StatelessWidget {
@@ -11,7 +27,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -31,7 +48,8 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         // colorScheme: Color.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const SplashPage(),
+      // home: const SplashPage(),
+      home: SignInPage(),
     );
   }
 }

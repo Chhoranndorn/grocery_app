@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:grocery_app/core/utils/images.dart';
 import 'package:grocery_app/core/widgets/custom_appbar.dart';
 import 'package:grocery_app/core/widgets/custom_dropdown.dart';
 import 'package:grocery_app/core/widgets/custom_textfield.dart';
 import 'package:grocery_app/core/widgets/primary_button.dart';
+import 'package:grocery_app/test.dart';
 
 class SelectLocation extends StatefulWidget {
   const SelectLocation({super.key});
@@ -73,7 +76,12 @@ class _SelectLocationState extends State<SelectLocation> {
                     ),
                     SizedBox(height: 40),
 
-                    PrimaryButton(title: "Submit", onPressed: () {}),
+                    PrimaryButton(
+                      title: "Submit",
+                      onPressed: () {
+                        Get.to(() => TestScreen());
+                      },
+                    ),
                   ],
                 ),
               ),

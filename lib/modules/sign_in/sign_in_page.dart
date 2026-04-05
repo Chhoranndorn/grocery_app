@@ -6,7 +6,7 @@ import 'package:grocery_app/core/widgets/social_button.dart';
 import 'package:grocery_app/modules/phonenumber/phone_number_page.dart';
 
 class SignInPage extends StatelessWidget {
-   SignInPage({super.key});
+  SignInPage({super.key});
   final TextEditingController phoneController = TextEditingController();
 
   @override
@@ -18,19 +18,36 @@ class SignInPage extends StatelessWidget {
           Image.asset(Images.signin),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text("Get your groceries \nwith nectar", style: TextStyle(fontSize: 25),),
+            child: Text(
+              "Get your groceries \nwith nectar",
+              style: TextStyle(fontSize: 25),
+            ),
           ),
-         GestureDetector(onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (_)=>PhoneNumberPage()));
-         }, child: AbsorbPointer(child: PhoneInput(controller:phoneController))),
-         SizedBox(height: 30,),
-         Center(child: Text("Or connect with social media")),
-         SizedBox(height: 30,),
-         SocialButton(title: "Continue with Google",icon: Icons.g_mobiledata,onPressed: (){},),
-         SizedBox(height: 20,),
-         SocialButton(title: "Continue with Facebook",icon: Icons.facebook,onPressed: (){},),
-
-
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => PhoneNumberPage()),
+              );
+            },
+            child: AbsorbPointer(
+              child: PhoneInput(controller: phoneController),
+            ),
+          ),
+          SizedBox(height: 30),
+          Center(child: Text("Or connect with social media")),
+          SizedBox(height: 30),
+          SocialButton(
+            title: "Continue with Google",
+            icon: Icons.g_mobiledata,
+            onPressed: () {},
+          ),
+          SizedBox(height: 20),
+          SocialButton(
+            title: "Continue with Facebook",
+            icon: Icons.facebook,
+            onPressed: () {},
+          ),
         ],
       ),
     );
