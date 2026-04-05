@@ -57,15 +57,19 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                     backgroundColor: Colors.green,
                     child: IconButton(
                       onPressed: () {
-                        // print("workinggggg");
-                        // return;
-
-                        authController.sendOtp(phoneController.text.trim());
-                        Get.toNamed(
-                          RouteHelper.getVerificationRoute(
-                            RouteHelper.verification,
-                          ),
-                        );
+                        // print("Phone Number: ${phoneController.text.trim()}");
+                        // authController.sendOtp(phoneController.text.trim());
+                        // Get.to(() => VerificationPage());
+                        String phone = phoneController.text.trim();
+                        if (phone.isEmpty) {
+                          Get.snackbar(
+                            "Error",
+                            "Please enter your phone number",
+                          );
+                          return;
+                        }
+                        authController.sendOtp(phone);
+                        Get.to(() => VerificationPage());
                       },
                       icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
                     ),
