@@ -5,7 +5,6 @@ import 'package:get/route_manager.dart';
 import 'package:grocery_app/controller/auth_controller.dart';
 import 'package:grocery_app/core/widgets/custom_appbar.dart';
 import 'package:grocery_app/core/widgets/phone_input.dart';
-import 'package:grocery_app/helper/route_helper.dart';
 import 'package:grocery_app/modules/verification/verification_page.dart';
 
 class PhoneNumberPage extends StatefulWidget {

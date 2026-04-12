@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/core/utils/images.dart';
 import 'package:grocery_app/core/widgets/phone_input.dart';
 import 'package:grocery_app/core/widgets/social_button.dart';
-import 'package:grocery_app/modules/phonenumber/phone_number_page.dart';
+import 'package:grocery_app/modules/Phonenumber/phone_number_page.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({super.key});

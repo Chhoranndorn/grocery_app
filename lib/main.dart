@@ -4,8 +4,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:grocery_app/controller/auth_controller.dart';
 import 'package:grocery_app/data/repository/auth_repo.dart';
-import 'package:grocery_app/modules/Select_Location/select_location%20.dart';
-import 'package:grocery_app/modules/sign_in/sign_in_page.dart';
+import 'package:grocery_app/helper/route_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -30,6 +29,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      getPages: RouteHelper.routes,
+      // initialRoute: RouteHelper.signIn,
+      initialRoute: RouteHelper.loginPage,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -49,7 +51,8 @@ class MyApp extends StatelessWidget {
         // colorScheme: Color.fromSeed(seedColor: Colors.deepPurple),
       ),
       // home: const SplashPage(),
-      home: SignInPage(),
+      // home: SignInPage(),
+      // home: LoginPage(),
     );
   }
 }

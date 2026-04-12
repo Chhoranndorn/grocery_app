@@ -5,7 +5,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:grocery_app/controller/auth_controller.dart';
 import 'package:grocery_app/core/widgets/custom_appbar.dart';
-import 'package:grocery_app/modules/Select_Location/select_location%20.dart';
+import 'package:grocery_app/modules/SelectLocation/select_location%20.dart';
 
 class VerificationPage extends StatefulWidget {
   const VerificationPage({super.key});

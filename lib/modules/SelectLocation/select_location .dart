@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:grocery_app/core/utils/images.dart';
 import 'package:grocery_app/core/widgets/custom_appbar.dart';
 import 'package:grocery_app/core/widgets/custom_dropdown.dart';
-import 'package:grocery_app/core/widgets/custom_textfield.dart';
 import 'package:grocery_app/core/widgets/primary_button.dart';
+import 'package:grocery_app/modules/Login/login_page.dart';
 import 'package:grocery_app/test.dart';
 
 class SelectLocation extends StatefulWidget {
@@ -18,11 +17,21 @@ class SelectLocation extends StatefulWidget {
 class _SelectLocationState extends State<SelectLocation> {
   String? selectedZone;
   String? selectedArea;
-  final Map<String, List<String>> areaMap = {
-    "Phnom Penh": ["Chamkar Mon", "Toul Kork", "Sen Sok"],
-    "Kandal": ["Ta Khmau", "Kien Svay"],
-    "Siem Reap": ["Svay Dangkum", "Sala Kamreuk"],
-  };
+
+  List<String> zones = ['Zone 1', 'Zone 2', 'Zone 3'];
+
+  List<String> get areas {
+    if (selectedZone == 'Zone 1') {
+      return ['Area 1-1', 'Area 1-2', 'Area 1-3'];
+    } else if (selectedZone == 'Zone 2') {
+      return ['Area 2-1', 'Area 2-2', 'Area 2-3'];
+    } else if (selectedZone == 'Zone 3') {
+      return ['Area 3-1', 'Area 3-2', 'Area 3-3'];
+    } else {
+      return [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +61,7 @@ class _SelectLocationState extends State<SelectLocation> {
                       label: "Your Zone",
                       hint: "Choose your zone",
                       value: selectedZone,
-                      items: areaMap.keys.toList(),
+                      items: zones,
                       onChanged: (value) {
                         setState(() {
                           selectedZone = value;
@@ -67,19 +76,21 @@ class _SelectLocationState extends State<SelectLocation> {
                       label: "Your Area",
                       hint: "Choose your area",
                       value: selectedArea,
-                      items: selectedZone == null ? [] : areaMap[selectedZone]!,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedArea = value;
-                        });
-                      },
+                      items: areas,
+                      onChanged: selectedZone == null
+                          ? null
+                          : (value) {
+                              setState(() {
+                                selectedArea = value;
+                              });
+                            },
                     ),
                     SizedBox(height: 40),
 
                     PrimaryButton(
                       title: "Submit",
                       onPressed: () {
-                        Get.to(() => TestScreen());
+                        Get.to(() => LoginPage());
                       },
                     ),
                   ],

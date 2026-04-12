@@ -4,3 +4,7 @@ class Images {
   static String signin = 'assets/images/signin.png';
   static String selectLocation = 'assets/images/illustration.png';
 }
+
+class AppIcons {
+  static String carrot = 'assets/icons/carrot.png';
+}

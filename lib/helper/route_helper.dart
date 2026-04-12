@@ -1,22 +1,22 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
-import 'package:grocery_app/modules/Select_Location/select_location%20.dart';
-import 'package:grocery_app/modules/sign_in/sign_in_page.dart';
-import 'package:grocery_app/modules/verification/verification_page.dart';
+import 'package:grocery_app/modules/Login/login_page.dart';
+import 'package:grocery_app/modules/SelectLocation/select_location%20.dart';
+import 'package:grocery_app/modules/Signin/sign_in_page.dart';
+import 'package:grocery_app/modules/Signup/signup_page.dart';
+import 'package:grocery_app/modules/Verification/verification_page.dart';
 
 class RouteHelper {
   static const String signIn = '/sign-in';
+  static const String signUp = '/sign-up';
+  static const String loginPage = '/login';
   static const String selectLocation = '/select-location';
   static const String verification = '/verification';
 
-  static String getSignInRoute(String verification) => signIn;
-  static String getSelectLocationRoute() => selectLocation;
-  static String getVerificationRoute(String verification) => verification;
-
-  GetPage getSignInPage() => GetPage(name: signIn, page: () => SignInPage());
-
-  GetPage getSelectLocationPage() =>
-      GetPage(name: selectLocation, page: () => SelectLocation());
-
-  GetPage getVerificationPage() =>
-      GetPage(name: verification, page: () => VerificationPage());
+  static List<GetPage> routes = [
+    GetPage(name: signIn, page: () => SignInPage()),
+    GetPage(name: signUp, page: () => SignupPage()),
+    GetPage(name: loginPage, page: () => LoginPage()),
+    GetPage(name: selectLocation, page: () => SelectLocation()),
+    GetPage(name: verification, page: () => VerificationPage()),
+  ];
 }

@@ -5,7 +5,7 @@ class CustomDropdownField extends StatelessWidget {
   final String hint;
   final String? value;
   final List<String> items;
-  final void Function(String?) onChanged;
+  final void Function(String?)? onChanged;
 
   const CustomDropdownField({
     super.key,
@@ -21,13 +21,7 @@ class CustomDropdownField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.grey,
-          ),
-        ),
+        Text(label, style: const TextStyle(fontSize: 14, color: Colors.grey)),
         const SizedBox(height: 5),
         DropdownButtonFormField<String>(
           value: value,
@@ -43,10 +37,7 @@ class CustomDropdownField extends StatelessWidget {
             ),
           ),
           items: items.map((item) {
-            return DropdownMenuItem<String>(
-              value: item,
-              child: Text(item),
-            );
+            return DropdownMenuItem<String>(value: item, child: Text(item));
           }).toList(),
         ),
       ],
