@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:grocery_app/controller/auth_controller.dart';
+import 'package:grocery_app/core/enums/status_enum.dart';
 import 'package:grocery_app/core/widgets/custom_appbar.dart';
-import 'package:grocery_app/modules/SelectLocation/select_location%20.dart';
 
 class VerificationPage extends StatefulWidget {
   const VerificationPage({super.key});
@@ -78,6 +75,8 @@ class _VerificationPageState extends State<VerificationPage> {
                                     authController.sendOtp(
                                       authController.phoneNumber.value,
                                     );
+                                    FocusScope.of(context).unfocus();
+                                    otpController.clear();
                                   }
                                 : null,
                             child: Text(
@@ -93,16 +92,21 @@ class _VerificationPageState extends State<VerificationPage> {
                             ),
                           ),
                         ),
+                        Obx(() {
+                          final isLoading =
+                              authController.status.value == Status.loading;
 
-                        Obx(
-                          () => CircleAvatar(
+                          return CircleAvatar(
                             radius: 25,
                             backgroundColor: Colors.green,
-                            child: authController.isLoading.value
-                                ? CircularProgressIndicator(color: Colors.white)
+                            child: isLoading
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
                                 : IconButton(
-                                    onPressed: () async {
+                                    onPressed: () {
                                       String otp = otpController.text.trim();
+
                                       if (otp.isEmpty) {
                                         Get.snackbar(
                                           "Error",
@@ -110,19 +114,16 @@ class _VerificationPageState extends State<VerificationPage> {
                                         );
                                         return;
                                       }
-                                      bool isSuccess = await authController
-                                          .verifyOtp(otpController.text.trim());
-                                      if (isSuccess) {
-                                        Get.to(() => SelectLocation());
-                                      }
+
+                                      authController.verifyOtp(otp);
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.arrow_forward_ios,
                                       color: Colors.white,
                                     ),
                                   ),
-                          ),
-                        ),
+                          );
+                        }),
                       ],
                     ),
                   ),

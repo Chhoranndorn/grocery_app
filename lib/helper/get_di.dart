@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/controller/auth_controller.dart';
+import 'package:grocery_app/core/di/init.dart';
 import 'package:grocery_app/core/utils/app_constants.dart';
 import 'package:grocery_app/data/models/language_model.dart';
 import 'package:grocery_app/data/repository/auth_repo.dart';
@@ -17,7 +18,7 @@ Future<Map<String, Map<String, String>>> init() async {
   // =====================
   // Repositories (Mock)
   // =====================
-  Get.lazyPut(() => MockAuthRepo());
+  Get.lazyPut<AuthRepo>(() => MockAuthRepo());
 
   // =====================
   // Controllers

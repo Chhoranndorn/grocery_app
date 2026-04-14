@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:grocery_app/data/repository/auth_repo.dart';
+import 'package:grocery_app/core/di/init.dart';
+import 'package:grocery_app/core/enums/status_enum.dart';
+import 'package:grocery_app/helper/route_helper.dart';
 
 class AuthController extends GetxController {
-  final MockAuthRepo authRepo;
+  // final MockAuthRepo authRepo;
+  final AuthRepo authRepo;
 
   AuthController({required this.authRepo});
 
@@ -14,6 +17,8 @@ class AuthController extends GetxController {
   var resendSeconds = 0.obs;
   Timer? _timer;
 
+  var status = Status.idle.obs;
+
   void sendOtp(String number) async {
     isLoading.value = true;
     phoneNumber.value = number;
@@ -21,27 +26,26 @@ class AuthController extends GetxController {
     final response = await authRepo.sendOtp(number);
     isLoading.value = false;
 
-    if (response.statusCode == 200) {
+    if (response.status == Status.success) {
       Get.snackbar('Success', 'OTP sent to $number');
       startResendTimer();
     } else {
-      Get.snackbar('Error', response.body['message']);
+      Get.snackbar('Error', response.message);
     }
   }
 
-  Future<bool> verifyOtp(String otp) async {
-    isLoading.value = true;
+  Future<void> verifyOtp(String otp) async {
+    status.value = Status.loading;
 
     final response = await authRepo.verifyOtp(phoneNumber.value, otp);
-    isLoading.value = false;
 
-    if (response.statusCode == 200) {
-      Get.snackbar('Success', 'Login successful');
-      print('User Token: ${response.body['token']}');
-      return true;
+    if (response.status == Status.success) {
+      status.value = Status.success;
+      Get.snackbar('Success', response.message);
+      Get.offAllNamed(RouteHelper.selectLocation);
     } else {
-      Get.snackbar('Error', response.body['message']);
-      return false;
+      status.value = Status.idle;
+      Get.snackbar('Error', response.message);
     }
   }
 
@@ -55,6 +59,18 @@ class AuthController extends GetxController {
         timer.cancel();
       }
     });
+  }
+
+  Future<void> login(String email, String password) async {
+    isLoading.value = true;
+    final response = await authRepo.login(email, password);
+    isLoading.value = false;
+    if (response.status == Status.success) {
+      Get.snackbar("Success", response.message);
+      Get.offAllNamed(RouteHelper.home);
+    } else {
+      Get.snackbar("Error", response.message);
+    }
   }
 
   @override

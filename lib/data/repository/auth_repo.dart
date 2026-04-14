@@ -1,14 +1,18 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
+import 'package:grocery_app/core/di/init.dart';
+import 'package:grocery_app/core/enums/status_enum.dart';
+import 'package:grocery_app/data/models/api_response.dart';
+import 'package:grocery_app/data/models/user_model.dart';
 
-class MockAuthRepo {
+class MockAuthRepo implements AuthRepo {
   // Store OTP temporarily (in real app this comes from server)
   String? _generatedOtp;
 
   /// Step 1: Send OTP
-  Future<Response> sendOtp(String phoneNumber) async {
+  @override
+  Future<ApiResponse<void>> sendOtp(String phoneNumber) async {
     await Future.delayed(const Duration(seconds: 2)); // simulate network
 
     // Generate fake 4-digit OTP
@@ -18,30 +22,45 @@ class MockAuthRepo {
       print('📲 OTP sent to $phoneNumber : $_generatedOtp');
     }
 
-    return Response(
-      statusCode: 200,
-      body: {
-        "message": "OTP sent successfully",
-        "otp": _generatedOtp, // you may hide in real app
-      },
+    return ApiResponse(
+      status: Status.success,
+      message: "OTP sent successfully",
     );
   }
 
   /// Step 2: Verify OTP
-  Future<Response> verifyOtp(String phoneNumber, String otp) async {
+  @override
+  Future<ApiResponse<UserModel>> verifyOtp(
+    String phoneNumber,
+    String otp,
+  ) async {
     await Future.delayed(const Duration(seconds: 1)); // simulate network
 
     if (_generatedOtp == otp) {
-      return Response(
-        statusCode: 200,
-        body: {
-          "message": "OTP verified successfully",
-          "token": "mock_token_123",
-          "user": {"phone": phoneNumber, "name": "Luffy"},
-        },
+      return ApiResponse(
+        status: Status.success,
+        message: "OTP verified successfully",
+        data: UserModel(phone: phoneNumber, name: "Luffy"),
       );
     } else {
-      return Response(statusCode: 400, body: {"message": "Invalid OTP"});
+      return ApiResponse(status: Status.error, message: "Invalid OTP");
+    }
+  }
+
+  @override
+  Future<ApiResponse<UserModel>> login(String email, String password) async {
+    await Future.delayed(const Duration(seconds: 2));
+    if (email == "admin@gmail.com" && password == "123456") {
+      return ApiResponse(
+        status: Status.success,
+        message: "Login successful",
+        data: UserModel(phone: email, name: "Admin"),
+      );
+    } else {
+      return ApiResponse(
+        status: Status.error,
+        message: "Invalid email or password",
+      );
     }
   }
 }

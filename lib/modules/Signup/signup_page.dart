@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -51,7 +52,10 @@ class _LoginHeader extends StatelessWidget {
   final TextEditingController usernameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
-  const _LoginHeader({
+  final FocusNode usernameFocusNode = FocusNode();
+  final FocusNode emailFocusNode = FocusNode();
+  final FocusNode passwordFocusNode = FocusNode();
+  _LoginHeader({
     required this.usernameController,
     required this.emailController,
     required this.passwordController,
@@ -73,6 +77,8 @@ class _LoginHeader extends StatelessWidget {
           ),
           SizedBox(height: 20),
           CustomTextField(
+            focusNode: usernameFocusNode,
+            nextFocusNode: emailFocusNode,
             label: "Username",
             hint: "Enter your username",
             controller: usernameController,
@@ -80,6 +86,8 @@ class _LoginHeader extends StatelessWidget {
           SizedBox(height: 20),
 
           CustomTextField(
+            focusNode: emailFocusNode,
+            nextFocusNode: passwordFocusNode,
             label: "Email",
             hint: "Enter your email",
             keyboardType: TextInputType.emailAddress,
@@ -87,39 +95,55 @@ class _LoginHeader extends StatelessWidget {
           ),
           SizedBox(height: 20),
           CustomTextField(
+            focusNode: passwordFocusNode,
+            nextFocusNode: null,
             label: "Password",
             hint: "Enter your password",
             obscureText: true,
             controller: passwordController,
           ),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  "By continuing you agree to our Terms of Service and Privacy Policy.",
+          SizedBox(height: 20),
+          RichText(
+            text: TextSpan(
+              style: TextStyle(color: Colors.black),
+              children: [
+                TextSpan(text: "By continuing you agree to our"),
+                TextSpan(
+                  text: "Terms of Service",
+                  style: TextStyle(color: Colors.blue),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      // Handle Terms of Service tap
+                    },
                 ),
-              ),
-            ],
+                TextSpan(text: " and "),
+                TextSpan(
+                  text: "Privacy Policy.",
+                  style: TextStyle(color: Colors.blue, height: 2),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      // Handle Privacy Policy tap
+                    },
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 20),
           PrimaryButton(
-            title: "Login",
+            title: "Sign Up",
             onPressed: () {
-              // Handle login logic here
+              // Handle signup logic here
             },
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Don't have an account?"),
+              Text("Already have an account?"),
               TextButton(
                 onPressed: () {
-                  Get.toNamed(RouteHelper.signUp);
+                  Get.toNamed(RouteHelper.loginPage);
                 },
-                child: Text("Sign Up", style: TextStyle(color: Colors.green)),
+                child: Text("Login", style: TextStyle(color: Colors.green)),
               ),
             ],
           ),

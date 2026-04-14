@@ -4,8 +4,7 @@ import 'package:grocery_app/core/utils/images.dart';
 import 'package:grocery_app/core/widgets/custom_appbar.dart';
 import 'package:grocery_app/core/widgets/custom_dropdown.dart';
 import 'package:grocery_app/core/widgets/primary_button.dart';
-import 'package:grocery_app/modules/Login/login_page.dart';
-import 'package:grocery_app/test.dart';
+import 'package:grocery_app/helper/route_helper.dart';
 
 class SelectLocation extends StatefulWidget {
   const SelectLocation({super.key});
@@ -90,7 +89,7 @@ class _SelectLocationState extends State<SelectLocation> {
                     PrimaryButton(
                       title: "Submit",
                       onPressed: () {
-                        Get.to(() => LoginPage());
+                        Get.toNamed(RouteHelper.loginPage);
                       },
                     ),
                   ],
