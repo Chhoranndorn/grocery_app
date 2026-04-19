@@ -30,8 +30,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       getPages: RouteHelper.routes,
       // initialRoute: RouteHelper.splash,
-      initialRoute: RouteHelper.signUp,
-      theme: ThemeData(),
+      initialRoute: RouteHelper.dashboard,
+      theme: ThemeData(fontFamily: "Poppins"),
     );
   }
 }
