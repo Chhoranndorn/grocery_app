@@ -73,6 +73,18 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<void> signup(String userName, String email, String password) async {
+    isLoading.value = true;
+    final response = await authRepo.signup(userName, email, password);
+    isLoading.value = false;
+    if (response.status == Status.success) {
+      Get.snackbar("Sucess", response.message);
+      Get.offAllNamed(RouteHelper.loginPage);
+    } else {
+      Get.snackbar("Error", response.message);
+    }
+  }
+
   @override
   void onClose() {
     _timer?.cancel();

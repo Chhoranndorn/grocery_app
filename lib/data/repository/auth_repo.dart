@@ -63,4 +63,18 @@ class MockAuthRepo implements AuthRepo {
       );
     }
   }
+
+  @override
+  Future<ApiResponse<void>> signup(
+    String userName,
+    String email,
+    String password,
+  ) async {
+    await Future.delayed(const Duration(seconds: 2));
+    return ApiResponse(
+      status: Status.success,
+      message: "Signup successful",
+      data: null,
+    );
+  }
 }

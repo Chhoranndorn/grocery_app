@@ -5,4 +5,9 @@ abstract class AuthRepo {
   Future<ApiResponse<UserModel>> login(String email, String password);
   Future<ApiResponse<void>> sendOtp(String phoneNumber);
   Future<ApiResponse<UserModel>> verifyOtp(String phoneNumber, String otp);
+  Future<ApiResponse<void>> signup(
+    String userName,
+    String email,
+    String password,
+  );
 }

@@ -1,5 +1,6 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:grocery_app/bindings/login_binding.dart';
+import 'package:grocery_app/bindings/signup_binding.dart';
 import 'package:grocery_app/modules/Home/home_page.dart';
 import 'package:grocery_app/modules/Login/login_page.dart';
 import 'package:grocery_app/modules/SelectLocation/select_location%20.dart';
@@ -20,7 +21,7 @@ class RouteHelper {
   static List<GetPage> routes = [
     GetPage(name: splash, page: () => const SplashPage()),
     GetPage(name: signIn, page: () => SignInPage()),
-    GetPage(name: signUp, page: () => SignupPage()),
+    GetPage(name: signUp, page: () => SignupPage(), binding: SignupBinding()),
     GetPage(name: loginPage, page: () => LoginPage(), binding: LoginBinding()),
     GetPage(name: home, page: () => HomePage()),
     GetPage(name: selectLocation, page: () => SelectLocation()),
