@@ -2,49 +2,38 @@ import 'package:dio/dio.dart';
 import 'package:grocery_app/core/utils/app_constants.dart';
 
 class DioClient {
-  final Dio dio = Dio(
+
+  final Dio dio;
+  DioClient()
+      : dio = Dio(
     BaseOptions(
-      baseUrl: AppConstants.baseUrl, // fake base URL
-      connectTimeout: const Duration(seconds: 5),
-      receiveTimeout: const Duration(seconds: 5),
+      baseUrl: AppConstants.baseUrl,
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      }
     ),
   );
 
+  Future<Response> get(String path)async{
+    try{
+      final response = await dio.get(path);
+      return response;
+    }catch(e){
+      throw Exception("GET error: $e");
+    }
+  }
+
   Future<Response> post(String path, Map data) async {
     await Future.delayed(const Duration(seconds: 2)); // simulate network
+try{
+  final response = await dio.post(path, data: data);
+  return response;
 
-    // MOCK ROUTING LOGIC
-    if (path == "/login") {
-      if (data["email"] == "admin@gmail.com" && data["password"] == "123456") {
-        return Response(
-          requestOptions: RequestOptions(path: path),
-          statusCode: 200,
-          data: {
-            "message": "Login success",
-            "user": {"name": "Admin", "email": data["email"]},
-          },
-        );
-      } else {
-        return Response(
-          requestOptions: RequestOptions(path: path),
-          statusCode: 400,
-          data: {"message": "Invalid email or password"},
-        );
-      }
-    }
-
-    if (path == "/send-otp") {
-      return Response(
-        requestOptions: RequestOptions(path: path),
-        statusCode: 200,
-        data: {"message": "OTP sent successfully", "otp": "1234"},
-      );
-    }
-
-    return Response(
-      requestOptions: RequestOptions(path: path),
-      statusCode: 404,
-      data: {"message": "Not found"},
-    );
+}catch(e){
+  throw Exception("POST error: $e");
+}
   }
 }

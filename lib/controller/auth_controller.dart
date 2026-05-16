@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:grocery_app/core/di/init.dart';
 import 'package:grocery_app/core/enums/status_enum.dart';
+import 'package:grocery_app/data/repository/auth_repo.dart';
 import 'package:grocery_app/helper/route_helper.dart';
 
 class AuthController extends GetxController {

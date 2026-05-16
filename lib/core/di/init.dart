@@ -1,13 +1,23 @@
-import 'package:grocery_app/data/models/api_response.dart';
-import 'package:grocery_app/data/models/user_model.dart';
+import 'package:get/get.dart';
+import 'package:grocery_app/data/api/dio_client.dart';
+import 'package:grocery_app/data/repository/product_repo.dart';
+import 'package:grocery_app/controller/product_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class AuthRepo {
-  Future<ApiResponse<UserModel>> login(String email, String password);
-  Future<ApiResponse<void>> sendOtp(String phoneNumber);
-  Future<ApiResponse<UserModel>> verifyOtp(String phoneNumber, String otp);
-  Future<ApiResponse<void>> signup(
-    String userName,
-    String email,
-    String password,
-  );
+Future<void> init() async {
+  final sharedPreferences = await SharedPreferences.getInstance();
+
+  // SharedPreferences
+  Get.lazyPut(() => sharedPreferences);
+
+  // ✅ VERY IMPORTANT
+  Get.lazyPut(() => DioClient());
+
+  // Repositories
+  // Get.lazyPut<AuthRepo>(() => MockAuthRepo());
+  Get.lazyPut(() => ProductRepo(dioClient: Get.find()));
+
+  // Controllers
+  // Get.lazyPut(() => AuthController(authRepo: Get.find()));
+  Get.lazyPut(() => ProductController(productRepo: Get.find()));
 }
