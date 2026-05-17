@@ -5,19 +5,10 @@ import 'package:grocery_app/helper/route_helper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await initDependencies(); 
-  await init();// Initialize dependencies before running the app
+  // await initDependencies();
+  await init(); // Initialize dependencies before running the app
   runApp(const MyApp());
 }
-
-// Future<void> initDependencies() async {
-//   final sharedPreferences = await SharedPreferences.getInstance();
-//   Get.lazyPut(() => sharedPreferences);
-//   Get.lazyPut<AuthRepo>(() => MockAuthRepo());
-//   Get.lazyPut<AuthController>(() => AuthController(authRepo: Get.find()));
-//   Get.lazyPut<ProductRepo>(() => ProductRepo(dioClient: Get.find()));
-//   Get.lazyPut<ProductController>(() => ProductController(productRepo: Get.find()));
-// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
