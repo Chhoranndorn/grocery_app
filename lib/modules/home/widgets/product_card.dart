@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  final product;
+  final dynamic product;
 
   const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 150,
+      width: 170,
+      height: 250,
       margin: const EdgeInsets.only(right: 12),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -23,46 +24,56 @@ class ProductCard extends StatelessWidget {
             child: Image.network(
               product.image,
               height: 80,
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
             ),
           ),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 12),
 
-          Text(
-            product.name,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+          SizedBox(
+            height: 44,
+            child: Text(
+              product.name,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
           ),
 
           const SizedBox(height: 4),
 
           Text(
             product.category ?? '',
-            style: TextStyle(color: Colors.grey),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
           ),
 
-          const SizedBox(height: 8),
+          const Spacer(),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 '\$${product.price}',
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
               ),
 
               Container(
                 decoration: BoxDecoration(
                   color: Colors.green,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Padding(
                   padding: EdgeInsets.all(6),
-                  child: Icon(Icons.add, color: Colors.white),
+                  child: Icon(Icons.add, color: Colors.white, size: 20),
                 ),
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
