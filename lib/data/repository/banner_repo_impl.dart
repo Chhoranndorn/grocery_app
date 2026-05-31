@@ -1,3 +1,4 @@
+import 'package:grocery_app/core/utils/app_constants.dart';
 import 'package:grocery_app/data/api/dio_client.dart';
 import 'package:grocery_app/data/models/api_response.dart';
 import 'package:grocery_app/data/models/banner_model.dart';
@@ -12,7 +13,7 @@ class BannerRepoImpl extends BannerRepo {
   @override
   Future<ApiResponse<BannerModel>> getBanners() async {
     try {
-      final response = await dioClient.get("/banners");
+      final response = await dioClient.get(AppConstants.getBannersUri);
 
       final model = BannerModel.fromJson(response.data);
 

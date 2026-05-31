@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 import 'package:grocery_app/controller/banner_controller.dart';
+import 'package:grocery_app/controller/category_controller.dart';
 import 'package:grocery_app/data/api/dio_client.dart';
 import 'package:grocery_app/data/repository/banner_repo.dart';
 import 'package:grocery_app/data/repository/banner_repo_impl.dart';
+import 'package:grocery_app/data/repository/category_repo.dart';
 import 'package:grocery_app/data/repository/product_repo.dart';
 import 'package:grocery_app/controller/product_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,8 +23,10 @@ Future<void> init() async {
   Get.lazyPut(() => ProductRepo(dioClient: Get.find()));
   Get.lazyPut<BannerRepo>(() => BannerRepoImpl(dioClient: Get.find()));
   Get.lazyPut(() => BannerController(bannerRepo: Get.find()));
+  Get.lazyPut(() => CategoryRepo(dioClient: Get.find()));
 
   // Controllers
   // Get.lazyPut(() => AuthController(authRepo: Get.find()));
   Get.lazyPut(() => ProductController(productRepo: Get.find()));
+  Get.lazyPut(() => CategoryController(categoryRepo: Get.find()));
 }

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:grocery_app/controller/category_controller.dart';
 import 'package:grocery_app/controller/product_controller.dart';
 import 'package:grocery_app/modules/Explore/category_detail_page.dart';
 import 'package:grocery_app/modules/Explore/product_search_page.dart';
 import 'package:grocery_app/modules/home/widgets/banner_slider.dart';
 import 'package:grocery_app/modules/home/widgets/category_card.dart';
 import 'package:grocery_app/modules/home/widgets/header.dart';
+import 'package:grocery_app/modules/home/widgets/product_card.dart';
 import 'package:grocery_app/modules/home/widgets/product_horizontal_list.dart';
 import 'package:grocery_app/modules/home/widgets/search_bar.dart';
 import 'package:grocery_app/modules/home/widgets/section_title.dart';
@@ -19,53 +22,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final controller = Get.find<ProductController>();
-  final List<Map<String, dynamic>> categories = [
-    {
-      "title": "Pulses",
-      "image":
-          "https://www.pngarts.com/files/4/Pulses-PNG-High-Quality-Image.png",
-      "color": const Color(0xFFF8EEDF),
-      "products": const [
-        CategoryProduct(
-          name: 'Pulses',
-          detail: '1kg, Price',
-          price: 4.99,
-          category: 'Groceries',
-          image:
-              'https://www.pngarts.com/files/4/Pulses-PNG-High-Quality-Image.png',
-        ),
-      ],
-    },
-    {
-      "title": "Rice",
-      "image": "https://www.pngarts.com/files/4/Rice-PNG-Picture.png",
-      "color": const Color(0xFFE8F3EC),
-      "products": const [
-        CategoryProduct(
-          name: 'Rice',
-          detail: '1kg, Price',
-          price: 4.99,
-          category: 'Groceries',
-          image: 'https://www.pngarts.com/files/4/Rice-PNG-Picture.png',
-        ),
-      ],
-    },
-    {
-      "title": "Meat",
-      "image": "https://www.pngarts.com/files/4/Meat-PNG-Free-Download.png",
-      "color": const Color(0xFFFFE5E5),
-      "products": const [
-        CategoryProduct(
-          name: 'Beef Bone',
-          detail: '1kg, Price',
-          price: 4.99,
-          category: 'Groceries',
-          image: 'https://www.pngarts.com/files/4/Meat-PNG-Free-Download.png',
-        ),
-      ],
-    },
-  ];
+  final productController = Get.find<ProductController>();
+  final categoryController = Get.find<CategoryController>();
 
   void _openSearch() {
     Navigator.push(
@@ -77,10 +35,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<CategoryProduct> _allProducts() {
-    return controller.productList.map<CategoryProduct>((product) {
+    return productController.allProducts.map<CategoryProduct>((product) {
       return CategoryProduct(
         name: product.name,
-        detail: product.category.isEmpty ? '1kg, Price' : product.category,
+        detail: product.category,
         price: product.price,
         category: product.category,
         brand: product.brand,
@@ -89,10 +47,43 @@ class _HomePageState extends State<HomePage> {
     }).toList();
   }
 
-  List<CategoryProduct> _groceryProducts() {
-    return [
-      for (final category in categories) ..._productsForCategory(category),
-    ];
+  List<CategoryProduct> _exclusiveOffers() {
+    return productController.exclusiveOffers.map<CategoryProduct>((product) {
+      return CategoryProduct(
+        name: product.name,
+        detail: product.category,
+        price: product.price,
+        category: product.category,
+        brand: product.brand,
+        image: product.image,
+      );
+    }).toList();
+  }
+
+  List<CategoryProduct> _bestSelling() {
+    return productController.bestSelling.map<CategoryProduct>((product) {
+      return CategoryProduct(
+        name: product.name,
+        detail: product.category,
+        price: product.price,
+        category: product.category,
+        brand: product.brand,
+        image: product.image,
+      );
+    }).toList();
+  }
+
+  List<CategoryProduct> _allcategory() {
+    return productController.bestSelling.map<CategoryProduct>((product) {
+      return CategoryProduct(
+        name: product.name,
+        detail: product.category,
+        price: product.price,
+        category: product.category,
+        brand: product.brand,
+        image: product.image,
+      );
+    }).toList();
   }
 
   void _openProductGrid(String title, List<CategoryProduct> products) {
@@ -143,51 +134,48 @@ class _HomePageState extends State<HomePage> {
               SectionTitle(
                 title: "Exclusive Offer",
                 onSeeAllTap: () =>
-                    _openProductGrid("Exclusive Offer", _allProducts()),
+                    _openProductGrid("Exclusive Offer", _exclusiveOffers()),
               ),
-              ProductHorizontalList(),
+              ProductHorizontalList(
+                products: productController.exclusiveOffers,
+              ),
               const SizedBox(height: 18),
               SectionTitle(
                 title: "Best Selling",
                 onSeeAllTap: () =>
-                    _openProductGrid("Best Selling", _allProducts()),
+                    _openProductGrid("Best Selling", _bestSelling()),
               ),
-              ProductHorizontalList(),
+              ProductHorizontalList(products: productController.bestSelling),
+
               const SizedBox(height: 18),
               SectionTitle(
                 title: "Groceries",
                 onSeeAllTap: () =>
-                    _openProductGrid("Groceries", _groceryProducts()),
+                    _openProductGrid("Best Selling", _allcategory()),
               ),
-              SizedBox(
-                height: 104,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  itemCount: categories.length,
-                  itemBuilder: (context, index) {
-                    final category = categories[index];
-                    return CategoryCard(
-                      title: category['title'],
-                      image: category['image'],
-                      backgroundColor: category['color'],
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CategoryDetailPage(
-                              title: category['title'],
-                              products: _productsForCategory(category),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
+
+              Obx(() {
+                return SizedBox(
+                  height: 104,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    itemCount: categoryController.allCategories.length,
+                    itemBuilder: (context, index) {
+                      final category = categoryController.allCategories[index];
+
+                      return CategoryCard(
+                        title: category.name,
+                        image: category.image,
+                        backgroundColor: Colors.blue,
+                        onTap: () {},
+                      );
+                    },
+                  ),
+                );
+              }),
               const SizedBox(height: 18),
-              ProductHorizontalList(),
+              ProductHorizontalList(products: productController.allProducts),
             ],
           ),
         ),

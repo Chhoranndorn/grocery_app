@@ -3,30 +3,57 @@ import 'package:grocery_app/data/models/product_model.dart';
 import 'package:grocery_app/data/repository/product_repo.dart';
 
 class ProductController extends GetxController {
-
   final ProductRepo productRepo;
 
   ProductController({required this.productRepo});
-  var productList = [].obs;
-  var isLoading = true.obs;
+  var allProducts = <Product>[].obs;
+  var exclusiveOffers = <Product>[].obs;
+  var bestSelling = <Product>[].obs;
 
+  var isLoading = false.obs;
 
   @override
   void onInit() {
-    fetchProducts();
+    fetchAll();
     super.onInit();
   }
 
+  void fetchAll() async {
+    await fetchProducts();
+    await fetchExclusiveOffers();
+    await fetchBestSelling();
+  }
 
-  void fetchProducts()async{
-    try{
+  Future<void> fetchProducts() async {
+    try {
       isLoading(true);
       final response = await productRepo.getProducts();
       final res = ProductResponse.fromJson(response);
-      productList.value = res.products;
-    } finally{
+      allProducts.value = res.products;
+    } finally {
       isLoading(false);
     }
   }
 
+  Future<void> fetchExclusiveOffers() async {
+    try {
+      isLoading(true);
+      final response = await productRepo.getExclusiveOffers();
+      final res = ProductResponse.fromJson(response);
+      exclusiveOffers.value = res.products;
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<void> fetchBestSelling() async {
+    try {
+      isLoading(true);
+      final response = await productRepo.getBestSelling();
+      final res = ProductResponse.fromJson(response);
+      bestSelling.value = res.products;
+    } finally {
+      isLoading(false);
+    }
+  }
 }

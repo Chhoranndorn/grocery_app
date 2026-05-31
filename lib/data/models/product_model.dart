@@ -12,13 +12,14 @@ class ProductResponse {
   factory ProductResponse.fromJson(Map<String, dynamic> json) {
     return ProductResponse(
       status: json['status'] ?? false,
-      products: (json['data'] as List)
+      products: (json['data'] as List<dynamic>? ?? [])
           .map((e) => Product.fromJson(e))
           .toList(),
-      meta: Meta.fromJson(json['meta']),
+      meta: Meta.fromJson(json['meta'] ?? {}),
     );
   }
 }
+
 class Product {
   final int id;
   final String name;
@@ -38,15 +39,21 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['id'],
+      id: json['id'] ?? 0,
       name: json['name'] ?? '',
-      price: double.parse(json['price'].toString()),
-      category: json['category'] ?? '',
-      brand: json['brand'] ?? '',
+      price: _parseDouble(json['price']),
+      category: json['category']?.toString() ?? '',
+      brand: json['brand']?.toString() ?? '',
       image: json['image'] ?? '',
     );
   }
+
+  static double _parseDouble(dynamic value) {
+    if (value == null) return 0.0;
+    return double.tryParse(value.toString()) ?? 0.0;
+  }
 }
+
 class Meta {
   final int currentPage;
   final int lastPage;
@@ -62,10 +69,10 @@ class Meta {
 
   factory Meta.fromJson(Map<String, dynamic> json) {
     return Meta(
-      currentPage: json['current_page'],
-      lastPage: json['last_page'],
-      perPage: json['per_page'],
-      total: json['total'],
+      currentPage: json['current_page'] ?? 1,
+      lastPage: json['last_page'] ?? 1,
+      perPage: json['per_page'] ?? 10,
+      total: json['total'] ?? 0,
     );
   }
 }

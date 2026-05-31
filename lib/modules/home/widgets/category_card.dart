@@ -25,11 +25,11 @@ class CategoryCard extends StatelessWidget {
           width: 214,
           height: 90,
           padding: const EdgeInsets.symmetric(horizontal: 16),
+
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(14),
           ),
-
           child: Row(
             children: [
               SizedBox(

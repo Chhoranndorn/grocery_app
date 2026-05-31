@@ -7,9 +7,9 @@ import 'package:grocery_app/modules/ProductDetail/product_detail_page.dart';
 import 'package:grocery_app/modules/home/widgets/product_card.dart';
 
 class ProductHorizontalList extends StatelessWidget {
-  final controller = Get.find<ProductController>();
+  final List<dynamic> products;
 
-  ProductHorizontalList({super.key});
+  const ProductHorizontalList({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +19,9 @@ class ProductHorizontalList extends StatelessWidget {
         return ListView.builder(
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          itemCount: controller.productList.length,
+          itemCount: products.length,
           itemBuilder: (context, index) {
-            final product = controller.productList[index];
+            final product = products[index];
             return ProductCard(
               product: product,
               onTap: () {
