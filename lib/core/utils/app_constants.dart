@@ -38,6 +38,11 @@ class AppConstants {
   static const String getBestSellingUri = "/api/products/best-selling";
 
   // =====================
+  // Shared Preferences Keys
+  static const String TOKEN = "token";
+  static const String LOCALIZATION_KEY = 'localization_key';
+
+  // =====================
   // Languages
   // =====================
   static List<LanguageModel> languages = [

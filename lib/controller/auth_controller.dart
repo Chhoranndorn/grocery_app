@@ -85,6 +85,43 @@ class AuthController extends GetxController {
     }
   }
 
+  // static bool _isForceLoggingOut = false;
+
+  // Future<void> forceLogout() async {
+  //   if (_isForceLoggingOut) return;
+  //   _isForceLoggingOut = true;
+
+  //   try {
+  //     await logout();
+  //     Get.offAll(() => const LoginScreen());
+  //   } finally {
+  //     _isForceLoggingOut = false;
+  //   }
+  // }
+  // Future<void> logout() async {
+  //   try {
+  //     // Clear SharedPreferences + Firebase + API client header
+  //     await authRepo.logout();
+
+  //     if (Get.isRegistered<ProfileController>()) {
+  //       Get.find<ProfileController>().clearProfile();
+  //     }
+
+  //     // Sign out Google if was signed in
+  //     try {
+  //       final google = Get.find<GoogleSignInController>();
+  //       await google.logout();
+  //     } catch (_) {}
+
+  //     // Reset driver state
+  //     _isDriver.value = false;
+
+  //     update();
+  //   } catch (e) {
+  //     debugPrint('Logout error: $e');
+  //   }
+  // }
+
   @override
   void onClose() {
     _timer?.cancel();
